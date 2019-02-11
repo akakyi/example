@@ -1,0 +1,93 @@
+#modalUpdateWindow {
+    width: 400px;
+    height: 425px;
+    margin-left: -200px;
+    margin-top: -212px;
+    border-radius: 5px;
+    background: rgb(106, 106, 106);
+    border: 2px #000;
+    z-index: 5;
+    padding: 20px 10px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    display: none;
+}
+#modalCreateWindow {
+    width: 400px;
+    height: 400px;
+    margin-left: -200px;
+    margin-top: -200px;
+    border-radius: 5px;
+    background: rgb(106, 106, 106);
+    border: 2px #000;
+    z-index: 5;
+    padding: 20px 10px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    display: none;
+}
+#modalCreateCategoryWindow {
+     width: 400px;
+     height: 200px;
+     margin-left: -200px;
+     margin-top: -100px;
+     border-radius: 5px;
+     background: rgb(106, 106, 106);
+     border: 2px #000;
+     z-index: 5;
+     padding: 20px 10px;
+     position: fixed;
+     top: 50%;
+     left: 50%;
+     display: none;
+}
+#modalUpdateCategoryWindow {
+    width: 400px;
+    height: 230px;
+    margin-left: -200px;
+    margin-top: -115px;
+    border-radius: 5px;
+    background: rgb(106, 106, 106);
+    border: 2px #000;
+    z-index: 5;
+    padding: 20px 10px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    display: none;
+}
+#modalShareTaskWindow {
+    width: 400px;
+    height: 110px;
+    margin-left: -200px;
+    margin-top: -115px;
+    border-radius: 5px;
+    background: rgb(106, 106, 106);
+    border: 2px #000;
+    z-index: 5;
+    padding: 20px 10px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    display: none;
+}
+#registrationWindow {
+    width: 400px;
+    height: 135px;
+    margin-left: -200px;
+    margin-top: -212px;
+    border-radius: 5px;
+    background: rgb(106, 106, 106);
+    border: 2px #000;
+    z-index: 5;
+    padding: 20px 10px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    display: none;
+}
+body {
+    background-color: #d6d6d6;
+}

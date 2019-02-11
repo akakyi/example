@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="registrationWindow">
+    <strong>Эллектронная почта:</strong><br>
+    <input type="text" id="userName" style="background-color: #d6d6d6;"><br><br>
+    <strong>Пароль:</strong><br>
+    <input type="password" id="passwordField" style="background-color: #d6d6d6;"><br><br>
+    <table width="100%" border="0" cellpadding="0">
+        <tr>
+            <td>
+                <input type="button" value="Отправить" onclick="registrate()">
+            </td>
+            <td align="right" valign="top">
+                <input type="button" value="Отмена" onclick="hideRegistrationWindow()">
+            </td>
+        </tr>
+    </table>
+</div>
+<script>
+    function validateSomeField(textField, fieldName, min = 0, max = 135, nullable = true) {
+        if (textField.value) {
+            while (textField.value.charAt(0) == ' ') {
+                textField.value = textField.value.substring(1, textField.value.length);
+            }
+            while (textField.value.charAt(textField.value.length - 1) == ' ') {
+                textField.value = textField.value.substring(0, textField.value.length - 1);
+            }
+        }
+        if (!nullable && !textField.value) {
+            $('#' + textField.id).css('border-color', 'rgba(175, 0, 3, 0.64)');
+            alert('Поле ' + (fieldName ? '"' + fieldName + '" ' : '') + 'обязательно к заполнению!');
+            return false;
+        } else {
+            if (textField.value) {
+                if (textField.value.length >= min && textField.value.length <= max) {
+                    $('#' + textField.id).css('border-color', '#d6d6d6');
+                    return true;
+                } else {
+                    $('#' + textField.id).css('border-color', 'rgba(175, 0, 3, 0.64)');
+                    alert('Поле ' +
+                        (fieldName ? '"' + fieldName + '" ' : '') +
+                        'Вмещает в себя от ' + min + ' до ' + max);
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    function registrate() {
+        var data = new Object();
+        if (!validateSomeField(document.getElementById("userName"), 'Имя пользователя', 1, 50, false) ||
+            !validateSomeField(document.getElementById("passwordField"), 'Пароль', 1, 50, false)) {
+            return;
+        }
+
+        data.login = document.getElementById("userName").value;
+        data.password = document.getElementById("passwordField").value;
+        if (!validateEmail(data.login)) {
+            alert('Эллектронная почта не корректна');
+            return;
+        }
+
+        var req = new XMLHttpRequest();
+        req.onreadystatechange = function () {
+            if (this.readyState == 4) {
+                if (this.status == 200) {
+                    if (navigator.cookieEnabled) {
+                        $('#registrationWindow').css('display', 'none');
+                        document.getElementById("login").value = data.login;
+                        document.getElementById("password").value = data.password;
+                    } else {
+                        alert("Cookie must be enabled for this site Лондонисзекепиталофгрейтбритан!");
+                    }
+                } else {
+                    if (this.status == 403) {
+                        alert('Пользователь уже существует!');
+                    }
+                }
+            }
+        };
+        req.open('PUT', 'http://localhost:8080/web-api/tsp/rest/user/save', false);
+        req.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+
+        req.send(JSON.stringify(data));
+    }
+
+    function showRegistrationWindow() {
+        $('#registrationWindow').css('display', 'block');
+
+        document.getElementById("userName").value = '';
+        document.getElementById("passwordField").value = '';
+    }
+
+    function readCookie(name) {
+        var searchName = name + '=';
+        var cookies = document.cookie.split(';');
+
+        for (var i = 0; i < cookies.length; i++) {
+            var c = cookies[i];
+            while (c.charAt(0) == ' ') { //удаляет пустоту в начале
+                c = c.substring(1, c.length);
+            }
+
+            if (c.indexOf(searchName) == 0) {
+                return c.substring(searchName.length, c.length);
+            }
+        }
+
+        return null;
+    }
+
+    var authToken = readCookie("authorization");
+    if (authToken) {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:8080/web-api/tsp/rest/auth/check',
+            beforeSend: function (request) {
+                request.setRequestHeader("authorization", authToken)
+            },
+            success: function (data) {
+                window.location.href = "tasksList.html";
+            },
+            async: false
+        });
+    }
+
+    function hideRegistrationWindow() {
+        $('#registrationWindow').css('display', 'none');
+    }
+
+    function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+</script>
+<table border="0">
+    <tr>
+        <td>
+            email:
+        </td>
+        <td>
+            <input type="text" id="login">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            password:
+        </td>
+        <td>
+            <input type="password" id="password">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button class="btn btn-default" onclick="sendAuthData()">Авторизоваться</button>
+        </td>
+        <td>
+            <button class="btn btn-default" onclick="showRegistrationWindow()">Зарегистрироваться</button>
+        </td>
+    </tr>
+</table>
+<script>
+    function writeCookie(name, value, days) {
+        console.log(name);
+        console.log(value);
+        var datDate = '';
+
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+            datDate = "; expires=" + date.toGMTString();
+        }
+        document.cookie = name + '=' + value + datDate + "; path =/";
+    }
+
+    function sendAuthData() {
+        let login = document.getElementById("login");
+        let pas = document.getElementById("password");
+        if (!validateSomeField(login, 'Почта', 1, 75, false) ||
+            !validateSomeField(pas, 'Пароль', 1, 50, false)) {
+            return;
+        }
+        if (!validateEmail(login.value)) {
+            alert('Эллектронная почта не корректна');
+            return;
+        }
+        var req = new XMLHttpRequest();
+        req.onreadystatechange = function () {
+            if (this.readyState == 4) {
+                if (this.status == 200) {
+                    if (navigator.cookieEnabled) {
+                        console.log("goWrite");
+                        writeCookie("authorization", this.getResponseHeader("authorization"));
+                        document.location.href = "tasksList.html";
+                    } else {
+                        alert("Cookie must be enabled for this site Лондонисзекепиталофгрейтбритан!");
+                    }
+                } else {
+                    if (this.status == 400) {
+                        alert('Не верная пара "логин-пароль"!');
+                    }
+                }
+            }
+        };
+        req.open('POST', 'http://localhost:8080/web-api/tsp/rest/auth', false);
+        req.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+
+        let userAuth = {login: login.value, password: pas.value};
+        // var jsonStr = '{"login":"' + document.getElementById('login').value + '"';
+        // jsonStr += ',"password":"' + document.getElementById('password').value + '"}';
+
+        console.log(userAuth);
+        req.send(JSON.stringify(userAuth));
+    }
+</script>
+</body>
+</html>

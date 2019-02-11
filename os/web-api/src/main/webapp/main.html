@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Тег SCRIPT</title>
+</head>
+<body>
+
+<input type="text" class="form-control" name="name" id="namek" value="1" placeholder="Имя">
+<button class="btn btn-default" onclick="odinJson()">Отправить номер элемента category</button>
+<button class="btn btn-default" onclick="allJsons()">Вывести все jsonы</button>
+<script>
+    function readCookie(name) {
+        var searchName = name + '=';
+        var cookies = document.cookie.split(';');
+
+        for (var i = 0; i < cookies.length; i++) {
+            var c = cookies[i];
+            while (c.charAt(0) == ' ') { //удаляет пустоту в начале
+                c = c.substring(1, c.length);
+            }
+
+            if (c.indexOf(searchName) == 0) {
+                return c.substring(searchName.length, c.length);
+            }
+        }
+
+        return null;
+    }
+    function allJsons(){
+
+        if (navigator.cookieEnabled) {
+            var authToken = readCookie("authorization");
+            if (authToken) {
+
+
+
+                $.ajax({
+                    dataType: 'json',
+                    type: 'GET',
+                    url: 'http://localhost:8080/web-api/tsp/rest/category',
+                    beforeSend: function (request) {
+                        request.setRequestHeader("authorization", authToken)
+                    },
+                    success: successAct,
+                    error: function (jqXHR, exception) {
+                        if (jqXHR.status == 401) {
+                            window.location.href = "auth.html";
+                        } else {
+                            alert("something go wrong");
+                        }
+                    }
+                });
+
+                function successAct(data) {
+
+                    document.write('<table width="100%" border="1">');
+                    document.writeln("<tr>");
+                    document.write("<td>" + "id" + "<\/td>");
+                    document.write("<td>" + "name" + "<\/td>");
+                    document.write("<td>" + "description" + "<\/td>");
+                    document.write("<td>" + "category" + "<\/td>");
+                    document.write("<td>" + "doBefore" + "<\/td>");
+                    document.write("<td>" + "createdAt" + "<\/td>");
+                    document.write("<td>" + "modifiedAt" + "<\/td>");
+                    document.write("<td>" + "modifiedBy" + "<\/td>");
+                    document.write("<td>" + "plase" + "<\/td>");
+                    document.writeln("<\/tr>");
+
+                    user = data;
+                    for (i = 0; i < user.length; i++) {
+
+                        document.write("<td>" + user[i].id + "<\/td>");
+                        document.write("<td>" + user[i].name + "<\/td>");
+                        document.write("<td>" + user[i].description + "<\/td>");
+                        document.write("<td>" + user[i].category + "<\/td>");
+                        document.write("<td>" + user[i].doBefore + "<\/td>");
+                        document.write("<td>" + user[i].createdAt + "<\/td>");
+                        document.write("<td>" + user[i].modifiedAt + "<\/td>");
+                        document.write("<td>" + user[i].modifiedBy + "<\/td>");
+                        document.write("<td>" + user[i].plase + "<\/td>");
+                        document.writeln("<\/tr>");
+                    }
+                }
+            } else {
+                alert("You ne avtorizovany!");
+            }
+
+
+
+        } else {
+            alert("Cookie must be enabled for this site Лондонисзекепиталофгрейтбритан!");
+        }
+
+    }
+
+
+    function odinJson() {
+
+        window.i = document.getElementById('name').value;
+//        table.parentNode.removeChild(table);
+
+        $.getJSON('http://localhost:8080/web-api/tsp/rest/category/' + window.i, function (data) {
+
+            user = data;
+            document.write('<table width="100%" border="1">');
+            document.writeln("<tr>");
+            document.write("<td>" + "id" + "<\/td>");
+            document.write("<td>" + "name" + "<\/td>");
+            document.write("<td>" + "description" + "<\/td>");
+            document.write("<td>" + "category" + "<\/td>");
+            document.write("<td>" + "doBefore" + "<\/td>");
+            document.write("<td>" + "createdAt" + "<\/td>");
+            document.write("<td>" + "modifiedAt" + "<\/td>");
+            document.write("<td>" + "modifiedBy" + "<\/td>");
+            document.write("<td>" + "plase" + "<\/td>");
+            document.writeln("<\/tr>");
+            for (j = 0; j < 1; j++) {
+                document.write("<td>" + user.id + "<\/td>");
+                document.write("<td>" + user.name + "<\/td>");
+                document.write("<td>" + user.description + "<\/td>");
+                document.write("<td>" + user.category + "<\/td>");
+                document.write("<td>" + user.doBefore + "<\/td>");
+                document.write("<td>" + user.createdAt + "<\/td>");
+                document.write("<td>" + user.modifiedAt + "<\/td>");
+                document.write("<td>" + user.modifiedBy + "<\/td>");
+                document.write("<td>" + user.plase + "<\/td>");
+            }
+            document.writeln("<\/tr>");
+        })
+    }
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>tsp</artifactId>
+        <groupId>6408</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <packaging>war</packaging>
+
+    <artifactId>web-api</artifactId>
+
+
+    <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.5</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-jaxrs -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxrs</artifactId>
+            <version>3.1.0.Final</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/jaxrs-api -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>jaxrs-api</artifactId>
+            <version>3.0.12.Final</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-client -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+            <version>3.1.0.Final</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-jaxb-provider -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxb-provider</artifactId>
+            <version>3.1.0.Final</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-jackson-provider -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jackson-provider</artifactId>
+            <version>3.1.0.Final</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-jackson2-provider -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jackson2-provider</artifactId>
+            <version>3.1.0.Final</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-multipart-provider -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-multipart-provider</artifactId>
+            <version>3.1.0.Final</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-cdi -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-cdi</artifactId>
+            <version>3.1.0.Final</version>
+        </dependency>
+
+
+        <!-- Jersey (JSON translation)-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>${javaee-api.version}</version>
+
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>4.3.5.Final</version>
+
+        </dependency>
+
+        <!-- for JPA, use hibernate-entitymanager instead of hibernate-core -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>4.3.5.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.4</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.7</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.6</version>
+                <configuration><!--
+ Reports that will be displayed on a generated site
+-->
+                    <reportPlugins><!--
+ Produces a cross-reference of the project's sources. This is useful
+                           for other reports like PMD or Checkstyle. When this plugin is used with
+                           checkstyle you can see code that produces style warning/error in the report.
+-->
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-jxr-plugin</artifactId>
+                            <version>2.5</version>
+                            <configuration>
+                                <aggregate>true</aggregate>
+                            </configuration>
+                        </plugin><!-- Checks projects code conventions -->
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-checkstyle-plugin</artifactId>
+                            <version>3.0.0</version>
+                            <configuration>
+                                <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                                <failsOnError>${checkstyleFailsOnError}</failsOnError>
+                                <testSourceDirectories>
+                                    <dir>src/test/java/</dir>
+                                </testSourceDirectories>
+                            </configuration>
+                        </plugin>
+                    </reportPlugins>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <!-- Настройка detekt - линтера kotlin-кода -->
+                    <execution>
+                        <!-- This can be run separately with mvn antrun:run@detekt -->
+                        <id>detekt</id>
+                        <phase>site</phase>
+                        <configuration>
+                            <skip>false</skip>
+                            <target name="detekt">
+                                <java taskname="detekt" dir="${basedir}" fork="true" failonerror="true"
+                                      classname="io.gitlab.arturbosch.detekt.cli.Main"
+                                      classpathref="maven.plugin.classpath">
+
+                                    <!-- документация по настройкам: https://arturbosch.github.io/detekt/cli.html -->
+
+                                    <!-- директория с анализируемым кодом -->
+                                    <arg value="--input"/>
+                                    <arg value="${basedir}/src"/>
+
+                                    <!-- конфиг с правилами проверок линтера -->
+                                    <arg value="--config"/>
+                                    <arg value="${basedir}/src/main/resources/detekt/config.yml"/>
+
+                                    <!-- место выгрузки отчета о нарушениях правил проверок линтера -->
+                                    <arg value="--output"/>
+                                    <arg value="${basedir}/target/site"/>
+
+                                    <!-- имена файлов отчетов -->
+                                    <arg value="--output-name"/>
+                                    <arg value="detekt-report"/>
+                                </java>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>io.gitlab.arturbosch.detekt</groupId>
+                        <artifactId>detekt-cli</artifactId>
+                        <version>1.0.0.RC6-4</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                        <manifestEntries>
+                            <Dependencies>org.slf4j</Dependencies>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

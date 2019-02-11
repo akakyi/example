@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Лист задач</title>
+    <link href="style.css" rel="stylesheet">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script type="text/javascript" src="scen.js"></script>
+    <script type="text/javascript" src="dataLoader.js"></script>
+    <script type="text/javascript" src="dataSetter.js"></script>
+</head>
+<body>
+<table width="100%" border="0" cellpadding="5" id="mainTable">
+    <tr>
+        <td>
+            Привет, <span id="userName"></span>! <br>
+            Твои задачи: <br><br>
+            <button id="createTaskButton">Добавить задачу</button>
+            <button id="createCategoryButton">Добавить категорию</button>
+            <button id="updateCategoryButton">Редактировать или удалить категорию</button>
+        </td>
+        <td align="right" valign="top">
+            <button id="exitButton">Выйти</button>
+        </td>
+    </tr>
+</table>
+
+<div id="modalUpdateWindow">
+    <strong id="windHeader"></strong><br>
+    <strong>Имя задачи:</strong><br>
+    <input type="text" id="taskNameInput" style="background-color: #d6d6d6;"><br>
+    <strong>Категория:</strong><br><select id="select" style="background-color: #d6d6d6;"></select><br>
+    <strong>Выполнить до:</strong><br>
+    <input type="date" id="datePicker" style="background-color: #d6d6d6">
+    <input type="time" id="timePicker" style="background-color: #d6d6d6"><br>
+    <strong>Место:</strong><br>
+    <pre><textarea id="placeArea" style="resize: none; width: 99%; height: 80px; background-color: #d6d6d6"></textarea></pre>
+    <strong>Описание:</strong><br>
+    <pre><textarea id="descriptionArea"
+                   style="resize: none; width: 99%; height: 80px; background-color: #d6d6d6"></textarea></pre>
+    <table width="100%" border="0" cellpadding="0">
+        <tr>
+            <td>
+                <input type="button" id="sendButton" value="Отправить">
+            </td>
+            <td align="right" valign="top">
+                <input type="button" id="cancelButton" value="Отмена">
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="modalCreateWindow">
+    <strong>Имя задачи:</strong><br>
+    <input type="text" id="newTaskNameInput" style="background-color: #d6d6d6;"><br>
+    <strong>Категория:</strong><br><select id="newSelect" style="background-color: #d6d6d6;"></select><br>
+    <strong>Выполнить до:</strong><br>
+    <input type="date" id="newDatePicker" style="background-color: #d6d6d6">
+    <input type="time" id="newTimePicker" style="background-color: #d6d6d6"><br>
+    <strong>Место:</strong><br>
+    <pre><textarea id="newPlaceArea"
+                   style="resize: none; width: 99%; height: 80px; background-color: #d6d6d6"></textarea></pre>
+    <strong>Описание:</strong><br>
+    <pre><textarea id="newDescriptionArea"
+                   style="resize: none; width: 99%; height: 80px; background-color: #d6d6d6"></textarea></pre>
+    <table width="100%" border="0" cellpadding="0">
+        <tr>
+            <td>
+                <input type="button" id="newSendButton" value="Отправить">
+            </td>
+            <td align="right" valign="top">
+                <input type="button" id="newCancelButton" value="Отмена">
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="modalCreateCategoryWindow">
+    <strong>Имя категории:</strong><br>
+    <input type="text" id="categoryNameInput" style="background-color: #d6d6d6;"><br>
+    <strong>Описание:</strong><br>
+    <pre><textarea id="categoryDescriptionArea"
+                   style="resize: none; width: 99%; height: 80px; background-color: #d6d6d6"></textarea></pre>
+    <table width="100%" border="0" cellpadding="0">
+        <tr>
+            <td>
+                <input type="button" id="categorySendButton" value="Отправить">
+            </td>
+            <td align="right" valign="top">
+                <input type="button" id="categoryCancelButton" value="Отмена">
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="modalShareTaskWindow">
+    <strong id="windUpdateHeader"></strong><br>
+    <strong>Имя пользователя:</strong><br>
+    <input type="text" id="recipientNameInput" style="background-color: #d6d6d6;"><br>
+    <table width="100%" border="0" cellpadding="0">
+        <tr>
+            <td>
+                <input type="button" id="taskShareButton" value="Поделиться задачей">
+            </td>
+            <td align="right" valign="top">
+                <input type="button" id="closeTaskShareButton" value="Отмена">
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="modalUpdateCategoryWindow">
+    <strong>Имя категории:</strong><br>
+    <select id="updateCategorySelect" style="background-color: #d6d6d6;"></select><br>
+    <input type="text" id="categoryUpdateNameInput" style="background-color: #d6d6d6;"><br><br>
+    <strong>Описание:</strong><br>
+    <pre><textarea id="categoryUpdateDescriptionArea"
+                   style="resize: none; width: 99%; height: 80px; background-color: #d6d6d6"></textarea></pre>
+    <table width="100%" border="0" cellpadding="0">
+        <tr>
+            <td>
+                <input type="button" id="updateCategorySendButton" value="Отправить">
+                <input type="button" id="deleteCategoryButton" value="Удалить">
+            </td>
+            <td align="right" valign="top">
+                <input type="button" id="updateCategoryCancelButton" value="Отмена">
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
